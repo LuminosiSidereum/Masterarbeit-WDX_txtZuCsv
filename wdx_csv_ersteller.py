@@ -7,8 +7,7 @@ import time
 from pathlib import Path
 
 def createCSVFileName(filename:str,dirNum:str,config:dict)->str:
-    if filename[0] in ["1","2","3"]:
-        filename:str  = f"{config["basicFileName"]}-{dirNum}_{filename[0]}_{config[filename[0]]}.csv"
+    filename:str  = f"{config["basicFileName"]}-{dirNum}_{filename[0]}_{config[filename[0]]}.csv"
     return filename
 
 def main(directorycontent:list)->None:
@@ -32,7 +31,7 @@ def main(directorycontent:list)->None:
             
     for os_file in directorycontent:
         file:Path = Path(os_file)
-        if os.path.isfile(file) and file.suffix == ".txt" and file.stem.endswith("_map"):
+        if os.path.isfile(file) and file.suffix == ".txt" and file.stem.endswith("_map") and file.stem[0] in config:
             data:pd.DataFrame = pd.read_csv(file, sep="\t", header=None)
             newFileName:str = createCSVFileName(file.stem,inputDirectoryNumber, config)
             data.to_csv(newFileName, index=False, header=False)
